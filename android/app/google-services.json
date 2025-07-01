@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "349018984870",
+    "project_id": "firmbox-6dca6",
+    "storage_bucket": "firmbox-6dca6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:349018984870:android:9f9016357cd02f7ced7f67",
+        "android_client_info": {
+          "package_name": "com.example.firmbox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "349018984870-tm63fuh1ta7etf7bc1ift7f7j8dhj6sm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnnC2U7pbF41qVJPbtU0YPFW9VfNEmNwQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "349018984870-tm63fuh1ta7etf7bc1ift7f7j8dhj6sm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "349018984870-aorntbfkqnounho4q8mtlt0o4okog7ib.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.firmbox"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

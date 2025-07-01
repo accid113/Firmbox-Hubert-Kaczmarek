@@ -1,0 +1,35 @@
+rules_version = '2';
+
+// Allow read/write access to content based on user's UID
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Zezwalaj na zapis i odczyt w folderze 'seller_logos' tylko uwierzytelnionym użytkownikom.
+    // Poprawna ścieżka: seller_logos/{userId}.jpg
+    match /seller_logos/{fileName} {
+      allow read;
+      allow write: if request.auth != null && fileName.matches(request.auth.uid + ".*");
+    }
+
+    // Alternatywnie, jeśli chcemy zachować strukturę folderów:
+    match /seller_logos/{userId}/{fileName} {
+      allow read;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Zezwalaj na zapis i odczyt w folderze 'invoices_pdf' tylko uwierzytelnionym użytkownikom
+    // w ich własnym podfolderze.
+    match /invoices_pdf/{userId}/{invoiceId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Zezwalaj na zapis i odczyt plików HTML podglądu strony internetowej
+    // Pliki są dostępne publicznie do odczytu (potrzebne dla przeglądarki)
+    // ale tylko uwierzytelnieni użytkownicy mogą je tworzyć
+    match /website_previews/{fileName} {
+      allow read; // Publiczny odczyt potrzebny dla przeglądarki
+      allow write: if request.auth != null 
+                  && fileName.matches('website_preview_' + request.auth.uid + '_.*\\.html');
+      allow delete: if request.auth != null; // Pozwól na usuwanie (dla automatycznego czyszczenia)
+    }
+  }
+} 

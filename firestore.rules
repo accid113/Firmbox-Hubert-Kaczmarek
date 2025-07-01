@@ -1,0 +1,51 @@
+// WAŻNE: Aby zapytania o faktury działały poprawnie, wymagany jest indeks złożony w Firestore.
+// Firestore powinien automatycznie zasugerować jego utworzenie w logach konsoli przy pierwszym uruchomieniu aplikacji.
+// Możesz go również utworzyć ręcznie w panelu Firebase:
+// Kolekcja: invoices, Pola: 1. userId (Rosnąco), 2. createdAt (Malejąco).
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Reguły dla business_ideas
+    match /business_ideas/{businessIdeaId} {
+      allow read, write: if request.auth != null 
+                        && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null 
+                   && request.auth.uid == request.resource.data.userId;
+    }
+    
+    // Reguły dla logo_designs
+    match /logo_designs/{logoDesignId} {
+      allow read, write: if request.auth != null 
+                        && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null 
+                   && request.auth.uid == request.resource.data.userId;
+    }
+    
+    // Reguły dla website_designs - tymczasowo bardziej permisywne dla testów
+    match /website_designs/{websiteDesignId} {
+      allow read, write, create, update, delete: if request.auth != null;
+    }
+    
+    // Reguły dla invoices - bardziej permisywne na potrzeby rozwoju
+    match /invoices/{invoiceId} {
+      allow read, write, create, update, delete: if request.auth != null;
+    }
+    
+    // Reguły dla seller_profiles
+    match /seller_profiles/{userId} {
+      allow read, write, create, update, delete: if request.auth != null 
+                                                && request.auth.uid == userId;
+    }
+    
+    // Reguły dla users (jeśli będą potrzebne)
+    match /users/{userId} {
+      allow read, write: if request.auth != null 
+                        && request.auth.uid == userId;
+    }
+    
+    // Domyślnie blokuj wszystko inne
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+} 
